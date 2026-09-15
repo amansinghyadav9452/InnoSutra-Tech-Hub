@@ -48,12 +48,12 @@ export default function Home() {
               What do you want to learn?
             </h2>
 
-            <div className="mt-8 flex gap-3 overflow-x-auto pb-3">
+            <div className="category-3d-grid mt-8">
               {categories.map((category, index) => (
                 <a
                   key={category}
                   href="/courses"
-                  className="min-w-max rounded-2xl border bg-white px-5 py-4 font-bold shadow-sm"
+                  className="category-3d-card"
                 >
                   {["🤖", "💻", "🛡️", "☁️", "📊", "🐍"][index]} {category}
                 </a>
@@ -69,7 +69,7 @@ export default function Home() {
               Skills students are learning
             </h2>
 
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="course-grid-3d mt-8">
               {courses.map((course) => (
                 <CourseCard key={course.id} course={course} />
               ))}
@@ -78,7 +78,7 @@ export default function Home() {
         </section>
 
         <section id="why" className="py-20">
-          <div className="container rounded-[36px] border bg-white p-7 shadow-soft md:p-12">
+          <div className="container why-3d-panel rounded-[36px] border bg-white p-7 shadow-soft md:p-12">
             <div className="max-w-2xl">
               <p className="font-bold text-violet-600">WHY INNOSUTRA</p>
               <h2 className="mt-2 text-3xl font-black md:text-5xl">
@@ -90,11 +90,11 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="benefits-3d-grid mt-10">
               {benefits.map(({ icon: Icon, title, description }) => (
                 <div
                   key={title}
-                  className="rounded-3xl bg-slate-50 p-6"
+                  className="benefit-3d-card"
                 >
                   <Icon className="text-violet-600" />
                   <h3 className="mt-5 text-xl font-black">{title}</h3>
@@ -106,7 +106,7 @@ export default function Home() {
         </section>
 
         <section className="py-20">
-          <div className="container rounded-[36px] bg-gradient-to-br from-violet-100 via-white to-cyan-100 p-10 text-center md:p-20">
+          <div className="container cta-3d-panel rounded-[36px] bg-gradient-to-br from-violet-100 via-white to-cyan-100 p-10 text-center md:p-20">
             <p className="font-bold text-violet-600">YOUR NEXT CHAPTER</p>
             <h2 className="mt-3 text-4xl font-black md:text-6xl">
               Learn. Build. <span className="gradient-text">Become.</span>

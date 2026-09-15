@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrowUpRight, Clock, Star, Users } from "lucide-react";
 
 type Course = {
@@ -15,52 +13,103 @@ type Course = {
   icon: string;
 };
 
+function getDiscount(price: string, oldPrice: string) {
+  const current = Number(price.replace(/[^0-9]/g, ""));
+  const original = Number(oldPrice.replace(/[^0-9]/g, ""));
+
+  if (!current || !original || original <= current) {
+    return null;
+  }
+
+  return Math.round(((original - current) / original) * 100);
+}
+
 export default function CourseCard({ course }: { course: Course }) {
+  const discount = getDiscount(course.price, course.old);
+
   return (
     <a
       href={`/courses/${course.id}`}
-      className="group block overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-soft"
+      className="course-card-3d group block"
     >
-      <div className="relative h-44 overflow-hidden bg-gradient-to-br from-violet-100 via-cyan-50 to-mint p-5">
-        <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/50" />
-        <div className="text-6xl">{course.icon}</div>
+      <div className="course-card-3d-shell">
+        <div className="course-card-3d-visual">
+          <div className="course-card-3d-glow" />
+          <div className="course-card-3d-grid" />
 
-        <span className="absolute bottom-4 left-4 rounded-full bg-white/85 px-3 py-1 text-xs font-bold">
-          {course.category}
-        </span>
+          <div className="course-card-3d-code">
+            <span>learn()</span>
+            <span>build()</span>
+            <span>create()</span>
+            <span>deploy()</span>
+          </div>
 
-        <span className="absolute right-4 top-4 rounded-full bg-slate-950 p-2 text-white">
-          <ArrowUpRight size={15} />
-        </span>
-      </div>
+          <div className="course-card-3d-device">
+            <div className="course-card-3d-screen">
+              <span className="course-card-3d-screen-dot" />
+              <strong>{course.icon}</strong>
+            </div>
+            <div className="course-card-3d-base" />
+          </div>
 
-      <div className="p-5">
-        <h3 className="text-lg font-extrabold leading-tight transition group-hover:text-violet-600">
-          {course.title}
-        </h3>
+          <div className="course-card-3d-icon">
+            {course.icon}
+          </div>
 
-        <p className="mt-2 text-sm text-slate-500">
-          Practical projects, guided lessons and career-ready skills.
-        </p>
-
-        <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500">
-          <span className="flex items-center gap-1 font-bold text-amber-600">
-            <Star size={14} fill="currentColor" />
-            {course.rating}
+          <span className="course-card-3d-category">
+            {course.category}
           </span>
-          <span className="flex items-center gap-1">
-            <Users size={14} />
-            {course.students}
+
+          <span className="course-card-3d-badge">
+            <span>★</span>
+            {course.level}
           </span>
-          <span className="flex items-center gap-1">
-            <Clock size={14} />
-            {course.hours}
+
+          <span className="course-card-3d-arrow">
+            <ArrowUpRight size={17} />
           </span>
         </div>
 
-        <div className="mt-5 flex items-end gap-2">
-          <strong className="text-xl">{course.price}</strong>
-          <del className="text-sm text-slate-400">{course.old}</del>
+        <div className="course-card-3d-body">
+          <div className="course-card-3d-kicker">
+            <span>INNOSUTRA COURSE</span>
+            {discount ? <strong>{discount}% OFF</strong> : null}
+          </div>
+
+          <h3 className="course-card-3d-title">
+            {course.title}
+          </h3>
+
+          <p className="course-card-3d-description">
+            Practical projects, guided lessons and career-ready skills.
+          </p>
+
+          <div className="course-card-3d-meta">
+            <span className="course-card-3d-rating">
+              <Star size={14} fill="currentColor" />
+              {course.rating}
+            </span>
+            <span>
+              <Users size={14} />
+              {course.students}
+            </span>
+            <span>
+              <Clock size={14} />
+              {course.hours}
+            </span>
+          </div>
+
+          <div className="course-card-3d-price-row">
+            <div>
+              <strong>{course.price}</strong>
+              <del>{course.old}</del>
+            </div>
+
+            <span className="course-card-3d-cta">
+              View Course
+              <ArrowUpRight size={15} />
+            </span>
+          </div>
         </div>
       </div>
     </a>

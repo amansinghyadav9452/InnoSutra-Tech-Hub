@@ -1168,3 +1168,625 @@ body {
 .bottom-nav-item.is-primary.is-active .bottom-nav-icon {
   transform: translateY(-1px) scale(1.03);
 }
+
+/* --------------------------------------------------------------------------
+   InnoSutra 3D course + section system
+   Lightweight CSS 3D only. No pointer-tracking JavaScript.
+   -------------------------------------------------------------------------- */
+
+.category-3d-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.category-3d-card {
+  position: relative;
+  min-height: 92px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #ffffff 0%, #f7fbff 54%, #edf7ff 100%);
+  color: #172033;
+  font-weight: 800;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: perspective(900px) rotateX(0deg) translateY(0) translateZ(0);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.category-3d-card::before {
+  position: absolute;
+  top: -28px;
+  right: -22px;
+  z-index: -1;
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.22), rgba(124, 58, 237, 0.02) 68%, transparent 70%);
+  content: "";
+  transition: transform 260ms ease;
+}
+
+.category-3d-card::after {
+  position: absolute;
+  right: 13px;
+  top: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.1), 0 7px 16px rgba(56, 189, 248, 0.2);
+  content: "";
+}
+
+.category-3d-card:hover {
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.12), 0 8px 24px rgba(37, 99, 235, 0.08), inset 0 1px 0 #fff;
+  transform: perspective(900px) rotateX(4deg) translateY(-5px) translateZ(8px);
+}
+
+.category-3d-card:hover::before {
+  transform: scale(1.18) translate(-4px, 4px);
+}
+
+.course-grid-3d {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.course-card-3d {
+  min-width: 0;
+  perspective: 1200px;
+  text-decoration: none;
+}
+
+.course-card-3d-shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.09), 0 3px 8px rgba(15, 23, 42, 0.04);
+  transform: rotateX(0deg) rotateY(0deg) translateY(0) translateZ(0);
+  transform-style: preserve-3d;
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms ease;
+  will-change: transform;
+}
+
+.course-card-3d:hover .course-card-3d-shell {
+  box-shadow: 0 30px 65px rgba(15, 23, 42, 0.16), 0 10px 28px rgba(37, 99, 235, 0.08);
+  transform: rotateX(2deg) rotateY(-2deg) translateY(-7px) translateZ(8px);
+}
+
+.course-card-3d-visual {
+  position: relative;
+  height: 205px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 76% 24%, rgba(56, 189, 248, 0.3), transparent 22%),
+    radial-gradient(circle at 22% 75%, rgba(124, 58, 237, 0.22), transparent 26%),
+    linear-gradient(135deg, #07172f 0%, #0a2b4c 48%, #26135b 100%);
+  transform-style: preserve-3d;
+}
+
+.course-card-3d-visual::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 38%, rgba(255, 255, 255, 0.04));
+  content: "";
+}
+
+.course-card-3d-visual::after {
+  position: absolute;
+  right: -28px;
+  bottom: -50px;
+  width: 170px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(34, 211, 238, 0.16);
+  filter: blur(26px);
+  content: "";
+}
+
+.course-card-3d-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, black, transparent 86%);
+  pointer-events: none;
+}
+
+.course-card-3d-glow {
+  position: absolute;
+  top: 35px;
+  left: 35%;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(96, 165, 250, 0.18);
+  filter: blur(18px);
+}
+
+.course-card-3d-code {
+  position: absolute;
+  left: 18px;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: rgba(125, 211, 252, 0.46);
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  line-height: 1.25;
+  transform: translateZ(15px) rotate(-3deg);
+}
+
+.course-card-3d-device {
+  position: absolute;
+  left: 50%;
+  top: 51%;
+  width: 145px;
+  height: 102px;
+  transform: translate(-46%, -50%) translateZ(42px) rotateX(12deg) rotateY(-12deg) rotateZ(-2deg);
+  transform-style: preserve-3d;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.course-card-3d:hover .course-card-3d-device {
+  transform: translate(-46%, -53%) translateZ(58px) rotateX(10deg) rotateY(-15deg) rotateZ(-2deg);
+}
+
+.course-card-3d-screen {
+  position: relative;
+  height: 78px;
+  overflow: hidden;
+  border: 4px solid #101c31;
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(145deg, #102f50, #07101e 72%);
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transform: translateZ(8px);
+}
+
+.course-card-3d-screen::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.17), transparent 28%, transparent 68%, rgba(255, 255, 255, 0.04));
+  content: "";
+}
+
+.course-card-3d-screen-dot {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 8px 0 #8b5cf6, 16px 0 #f59e0b;
+}
+
+.course-card-3d-screen strong {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  filter: drop-shadow(0 7px 12px rgba(0, 0, 0, 0.4));
+  transform: translateZ(10px);
+}
+
+.course-card-3d-base {
+  position: absolute;
+  left: -10px;
+  bottom: -8px;
+  width: 165px;
+  height: 24px;
+  border-radius: 4px 4px 12px 12px;
+  background: linear-gradient(180deg, #a9b6c7, #59677b 58%, #354153);
+  box-shadow: 0 14px 20px rgba(0, 0, 0, 0.28);
+  transform: perspective(300px) rotateX(55deg) translateZ(-4px);
+}
+
+.course-card-3d-icon {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.07));
+  box-shadow: 0 15px 28px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  font-size: 32px;
+  transform: translateZ(50px) rotate(7deg);
+  transition: transform 260ms ease;
+}
+
+.course-card-3d:hover .course-card-3d-icon {
+  transform: translateZ(68px) rotate(4deg) translateY(-3px);
+}
+
+.course-card-3d-category,
+.course-card-3d-badge,
+.course-card-3d-arrow {
+  position: absolute;
+  z-index: 3;
+}
+
+.course-card-3d-category {
+  left: 16px;
+  top: 16px;
+  max-width: 58%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(8, 18, 35, 0.62);
+  padding: 7px 10px;
+  color: #e0f2fe;
+  font-size: 10px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+}
+
+.course-card-3d-badge {
+  left: 16px;
+  bottom: 15px;
+  border-radius: 999px;
+  background: rgba(250, 204, 21, 0.92);
+  padding: 6px 9px;
+  color: #422006;
+  font-size: 9px;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(250, 204, 21, 0.16);
+  transform: translateZ(28px);
+}
+
+.course-card-3d-badge span {
+  margin-right: 4px;
+}
+
+.course-card-3d-arrow {
+  right: 16px;
+  bottom: 15px;
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 9px 20px rgba(0, 0, 0, 0.2);
+  transform: translateZ(30px);
+  transition: transform 220ms ease;
+}
+
+.course-card-3d:hover .course-card-3d-arrow {
+  transform: translateZ(42px) rotate(6deg);
+}
+
+.course-card-3d-body {
+  padding: 18px 18px 17px;
+}
+
+.course-card-3d-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.course-card-3d-kicker strong {
+  border-radius: 999px;
+  background: #d1fae5;
+  padding: 5px 7px;
+  color: #047857;
+  letter-spacing: 0;
+}
+
+.course-card-3d-title {
+  margin-top: 9px;
+  color: #111827;
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.12;
+  transition: color 180ms ease;
+}
+
+.course-card-3d:hover .course-card-3d-title {
+  color: #2563eb;
+}
+
+.course-card-3d-description {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.course-card-3d-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.course-card-3d-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.course-card-3d-rating {
+  color: #d97706;
+  font-weight: 900;
+}
+
+.course-card-3d-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.course-card-3d-price-row > div {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.course-card-3d-price-row strong {
+  color: #111827;
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.course-card-3d-price-row del {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.course-card-3d-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #172554, #2563eb);
+  padding: 9px 10px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 850;
+  box-shadow: 0 9px 20px rgba(37, 99, 235, 0.2);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.course-card-3d:hover .course-card-3d-cta {
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.28);
+  transform: translateY(-1px);
+}
+
+.why-3d-panel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 255, 0.94));
+}
+
+.why-3d-panel::before {
+  position: absolute;
+  top: -140px;
+  right: -90px;
+  z-index: -1;
+  width: 330px;
+  height: 330px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.12), transparent 68%);
+  content: "";
+}
+
+.benefits-3d-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.benefit-3d-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 190px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 27px;
+  background: linear-gradient(145deg, #ffffff, #f4f7fc);
+  padding: 24px;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.07);
+  transform: perspective(900px) rotateX(0deg) translateY(0);
+  transition: transform 230ms ease, box-shadow 230ms ease;
+}
+
+.benefit-3d-card::before {
+  position: absolute;
+  right: -34px;
+  top: -34px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(124, 58, 237, 0.12), rgba(34, 211, 238, 0.02));
+  content: "";
+}
+
+.benefit-3d-card::after {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  height: 4px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #7357ff, #20c7d9);
+  opacity: 0.7;
+  content: "";
+}
+
+.benefit-3d-card:hover {
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+  transform: perspective(900px) rotateX(3deg) translateY(-5px);
+}
+
+.benefit-3d-card > svg {
+  position: relative;
+  z-index: 1;
+  width: 45px;
+  height: 45px;
+  padding: 11px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #eef2ff, #ffffff);
+  box-shadow: 8px 10px 18px rgba(15, 23, 42, 0.08), inset -2px -2px 6px rgba(148, 163, 184, 0.12);
+  transform: translateZ(22px);
+}
+
+.benefit-3d-card h3,
+.benefit-3d-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.benefit-3d-card h3 {
+  margin-top: 20px;
+}
+
+.benefit-3d-card p {
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.cta-3d-panel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 25px 70px rgba(67, 56, 202, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.cta-3d-panel::before,
+.cta-3d-panel::after {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  content: "";
+}
+
+.cta-3d-panel::before {
+  top: -100px;
+  right: 7%;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.22), rgba(124, 58, 237, 0.02) 65%, transparent 68%);
+}
+
+.cta-3d-panel::after {
+  left: 8%;
+  bottom: -150px;
+  width: 320px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.2), transparent 68%);
+}
+
+@media (max-width: 1100px) {
+  .category-3d-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .course-grid-3d {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .category-3d-grid {
+    display: flex;
+    gap: 11px;
+    overflow-x: auto;
+    padding: 3px 2px 10px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .category-3d-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-3d-card {
+    min-width: 156px;
+    min-height: 84px;
+    scroll-snap-align: start;
+  }
+
+  .course-grid-3d {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 4px 3px 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .course-grid-3d::-webkit-scrollbar {
+    display: none;
+  }
+
+  .course-card-3d {
+    flex: 0 0 min(84vw, 340px);
+    scroll-snap-align: start;
+  }
+
+  .course-card-3d-visual {
+    height: 195px;
+  }
+
+  .benefits-3d-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefit-3d-card {
+    min-height: 165px;
+  }
+
+  .course-card-3d:hover .course-card-3d-shell,
+  .category-3d-card:hover,
+  .benefit-3d-card:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-3d-card,
+  .course-card-3d-shell,
+  .course-card-3d-device,
+  .course-card-3d-icon,
+  .course-card-3d-arrow,
+  .course-card-3d-cta,
+  .benefit-3d-card {
+    transition: none;
+  }
+}
