@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
@@ -53,14 +50,13 @@ export default function Home() {
 
             <div className="mt-8 flex gap-3 overflow-x-auto pb-3">
               {categories.map((category, index) => (
-                <motion.a
+                <a
                   key={category}
-                  whileHover={{ scale: 1.03 }}
                   href="/courses"
                   className="min-w-max rounded-2xl border bg-white px-5 py-4 font-bold shadow-sm"
                 >
                   {["🤖", "💻", "🛡️", "☁️", "📊", "🐍"][index]} {category}
-                </motion.a>
+                </a>
               ))}
             </div>
           </div>
@@ -96,15 +92,14 @@ export default function Home() {
 
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {benefits.map(({ icon: Icon, title, description }) => (
-                <motion.div
+                <div
                   key={title}
-                  whileHover={{ y: -5 }}
                   className="rounded-3xl bg-slate-50 p-6"
                 >
                   <Icon className="text-violet-600" />
                   <h3 className="mt-5 text-xl font-black">{title}</h3>
                   <p className="mt-2 text-slate-500">{description}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

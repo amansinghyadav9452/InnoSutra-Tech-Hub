@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowUpRight, Clock, Star, Users } from "lucide-react";
 
 type Course = {
@@ -18,10 +17,8 @@ type Course = {
 
 export default function CourseCard({ course }: { course: Course }) {
   return (
-    <motion.a
+    <a
       href={`/courses/${course.id}`}
-      whileHover={{ y: -7 }}
-      transition={{ type: "spring", stiffness: 300 }}
       className="group block overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-soft"
     >
       <div className="relative h-44 overflow-hidden bg-gradient-to-br from-violet-100 via-cyan-50 to-mint p-5">
@@ -66,6 +63,6 @@ export default function CourseCard({ course }: { course: Course }) {
           <del className="text-sm text-slate-400">{course.old}</del>
         </div>
       </div>
-    </motion.a>
+    </a>
   );
 }
