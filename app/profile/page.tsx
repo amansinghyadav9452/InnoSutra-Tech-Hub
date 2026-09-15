@@ -1,7 +1,9 @@
+import { requireAuth } from "@/lib/require-auth";
 import Link from "next/link";
 import { ArrowRight, Award, Settings, UserRound } from "lucide-react";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  const user = await requireAuth();
   return (
     <main className="py-10 md:py-16">
       <div className="container max-w-5xl">

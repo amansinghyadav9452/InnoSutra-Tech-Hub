@@ -125,12 +125,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t bg-white py-8">
-        <div className="container flex flex-col justify-between gap-3 text-sm text-slate-500 sm:flex-row">
-          <strong className="text-slate-900">InnoSutra Tech Hub</strong>
-          <span>Learn. Build. Become.</span>
-        </div>
-      </footer>
+
     </>
   );
 }

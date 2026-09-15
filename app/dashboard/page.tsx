@@ -1,3 +1,4 @@
+import { requireAuth } from "@/lib/require-auth";
 import Link from "next/link";
 import { ArrowRight, BookOpen, PlayCircle, Trophy } from "lucide-react";
 
@@ -19,7 +20,8 @@ const learningItems = [
   },
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const user = await requireAuth();
   return (
     <main className="py-10 md:py-16">
       <div className="container">
@@ -28,7 +30,7 @@ export default function DashboardPage() {
             My Learning
           </p>
           <h1 className="mt-2 text-4xl font-black md:text-6xl">
-            Keep building your future.
+            Keep building your future, {user.name.split(" ")[0]}.
           </h1>
           <p className="mt-4 max-w-2xl text-slate-600">
             Pick up where you left off and keep your learning momentum moving.

@@ -1,0 +1,17 @@
+import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
+
+export async function GET() {
+  try {
+    const user = await getCurrentUser();
+
+    return NextResponse.json({ user });
+  } catch (error) {
+    console.error("Session lookup error:", error);
+
+    return NextResponse.json(
+      { message: "Unable to check your session." },
+      { status: 500 },
+    );
+  }
+}

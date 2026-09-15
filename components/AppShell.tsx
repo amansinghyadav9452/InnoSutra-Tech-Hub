@@ -9,6 +9,8 @@ import {
   CircleUserRound,
   GraduationCap,
   Home,
+  LogIn,
+  LogOut,
   Menu,
   Search,
   Sparkles,
@@ -22,28 +24,40 @@ const sidebarLinks = [
     label: "Home",
     href: "/",
     icon: Home,
+    protected: false,
   },
   {
     label: "Course Catalog",
     href: "/courses",
     icon: BookOpen,
+    protected: false,
   },
   {
     label: "My Learning",
     href: "/dashboard",
     icon: GraduationCap,
+    protected: true,
   },
   {
     label: "Profile",
     href: "/profile",
     icon: UserRound,
+    protected: true,
   },
   {
     label: "Live Learning",
     href: "/live",
     icon: Video,
+    protected: true,
   },
 ];
+
+type SessionUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: "student" | "admin";
+};
 
 export default function AppShell({
   children,
@@ -51,6 +65,8 @@ export default function AppShell({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState<SessionUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -60,6 +76,49 @@ export default function AppShell({
       document.body.style.overflow = "";
     };
   }, [sidebarOpen]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadSession() {
+      try {
+        const response = await fetch("/api/auth/me", {
+          cache: "no-store",
+        });
+        const data = await response.json();
+
+        if (active) {
+          setUser(data.user ?? null);
+        }
+      } catch {
+        if (active) {
+          setUser(null);
+        }
+      } finally {
+        if (active) {
+          setAuthLoading(false);
+        }
+      }
+    }
+
+    loadSession();
+
+    return () => {
+      active = false;
+    };
+  }, [pathname]);
+
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+    } finally {
+      setUser(null);
+      setSidebarOpen(false);
+      window.location.href = "/";
+    }
+  }
 
   return (
     <div className="app-shell">
@@ -77,15 +136,6 @@ export default function AppShell({
             <Link href="/courses" className="desktop-nav-link">
               Courses
             </Link>
-            <Link href="/courses" className="desktop-nav-link">
-              For Business
-            </Link>
-            <Link href="/courses" className="desktop-nav-link">
-              Community
-            </Link>
-            <Link href="/courses" className="desktop-nav-link">
-              Pricing
-            </Link>
           </nav>
 
           <div className="header-actions">
@@ -97,13 +147,23 @@ export default function AppShell({
               <Search size={19} />
             </button>
 
-            <Link href="/login" className="header-login">
-              Log in
-            </Link>
-
-            <Link href="/register" className="header-join">
-              Join Free
-            </Link>
+            {!authLoading && user ? (
+              <button
+                type="button"
+                className="header-user"
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open account menu"
+              >
+                <span className="header-user-avatar">
+                  {user.name.charAt(0).toUpperCase()}
+                </span>
+                <span className="header-user-name">{user.name.split(" ")[0]}</span>
+              </button>
+            ) : (
+              <Link href="/login" className="header-login">
+                Log in
+              </Link>
+            )}
 
             <button
               type="button"
@@ -150,11 +210,19 @@ export default function AppShell({
 
         <div className="sidebar-profile">
           <div className="sidebar-avatar">
-            <CircleUserRound size={24} />
+            {user ? (
+              user.name.charAt(0).toUpperCase()
+            ) : (
+              <CircleUserRound size={24} />
+            )}
           </div>
           <div>
-            <p className="sidebar-profile-title">Welcome to InnoSutra</p>
-            <p className="sidebar-profile-subtitle">Start your journey</p>
+            <p className="sidebar-profile-title">
+              {user ? `Hi, ${user.name.split(" ")[0]}` : "Welcome to InnoSutra"}
+            </p>
+            <p className="sidebar-profile-subtitle">
+              {user ? user.email : "Sign in to unlock your learning space"}
+            </p>
           </div>
         </div>
 
@@ -163,12 +231,17 @@ export default function AppShell({
 
           {sidebarLinks.map((item) => {
             const Icon = item.icon;
+            const href = item.protected && !user
+              ? `/login?next=${encodeURIComponent(item.href)}`
+              : item.href;
 
             return (
               <Link
                 key={item.label}
-                href={item.href}
-                className="sidebar-link"
+                href={href}
+                className={`sidebar-link ${
+                  pathname === item.href ? "is-active" : ""
+                }`}
                 onClick={() => setSidebarOpen(false)}
               >
                 <span className="sidebar-link-icon">
@@ -185,17 +258,43 @@ export default function AppShell({
           <div className="sidebar-promo-icon">
             <Sparkles size={19} />
           </div>
-          <p className="sidebar-promo-title">Ready to level up?</p>
+          <p className="sidebar-promo-title">
+            {user ? "Keep your streak going" : "Ready to level up?"}
+          </p>
           <p className="sidebar-promo-text">
-            Explore practical courses built for your next step.
+            {user
+              ? "Continue your courses and keep building practical skills."
+              : "Create an account to save courses and track your progress."}
           </p>
           <Link
-            href="/courses"
+            href={user ? "/dashboard" : "/register"}
             className="sidebar-promo-button"
             onClick={() => setSidebarOpen(false)}
           >
-            Explore Courses
+            {user ? "My Learning" : "Create Account"}
           </Link>
+        </div>
+
+        <div className="sidebar-account-actions">
+          {user ? (
+            <button
+              type="button"
+              className="sidebar-account-button"
+              onClick={handleLogout}
+            >
+              <LogOut size={17} />
+              Log out
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="sidebar-account-button"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <LogIn size={17} />
+              Log in
+            </Link>
+          )}
         </div>
       </aside>
 
@@ -205,11 +304,14 @@ export default function AppShell({
         {sidebarLinks.map((item, index) => {
           const Icon = item.icon;
           const isPrimary = index === 2;
+          const href = item.protected && !user
+            ? `/login?next=${encodeURIComponent(item.href)}`
+            : item.href;
 
           return (
             <Link
               key={item.label}
-              href={item.href}
+              href={href}
               className={`bottom-nav-item ${isPrimary ? "is-primary" : ""} ${
                 pathname === item.href ? "is-active" : ""
               }`}

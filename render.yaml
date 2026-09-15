@@ -3,4 +3,9 @@ services:
     name: innosutra-tech-hub
     runtime: node
     buildCommand: npm install && npm run build
-    startCommand: npm start
+    startCommand: npm run db:setup && npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: AUTH_SECRET
+        generateValue: true

@@ -1,39 +1,52 @@
-const fields = [
-  { label: "Full name", type: "text" },
-  { label: "Email address", type: "email" },
-  { label: "Password", type: "password" },
-];
+import Link from "next/link";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { RegisterForm } from "@/components/AuthForm";
 
-export default function Register() {
+export default async function RegisterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const params = await searchParams;
+  const nextPath = params.next?.startsWith("/") && !params.next.startsWith("//")
+    ? params.next
+    : "/dashboard";
   return (
-    <main className="grid min-h-screen place-items-center bg-gradient-to-br from-violet-100 to-cyan-100 p-6">
-      <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-soft">
-        <a href="/" className="text-xl font-black">
-          Inno<span className="gradient-text">Sutra</span>
-        </a>
+    <main className="auth-page">
+      <div className="auth-shell">
+        <Link href="/" className="auth-back-link">
+          <ArrowLeft size={16} />
+          Back to InnoSutra
+        </Link>
 
-        <h1 className="mt-10 text-3xl font-black">Create your account</h1>
-        <p className="mt-2 text-slate-500">Start learning for free.</p>
+        <div className="auth-card">
+          <Link href="/" className="brand auth-brand">
+            <span>Inno</span>
+            <span className="brand-gradient">Sutra</span>
+          </Link>
 
-        {fields.map((field) => (
-          <input
-            key={field.label}
-            className="mt-3 w-full rounded-xl border p-4"
-            placeholder={field.label}
-            type={field.type}
-          />
-        ))}
+          <div className="auth-heading">
+            <span className="auth-kicker">START LEARNING</span>
+            <h1>Create your InnoSutra account.</h1>
+            <p>
+              Create your account once and keep your courses, progress and learning activity together.
+            </p>
+          </div>
 
-        <button className="mt-5 w-full rounded-xl bg-slate-950 p-4 font-bold text-white">
-          Create Account
-        </button>
+          <RegisterForm nextPath={nextPath} />
 
-        <p className="mt-6 text-center text-sm">
-          Already registered?{" "}
-          <a href="/login" className="font-bold text-violet-600">
-            Login
-          </a>
-        </p>
+          <div className="auth-security-note">
+            <ShieldCheck size={18} />
+            Passwords are stored as secure one-way hashes.
+          </div>
+
+          <p className="auth-switch">
+            Already have an account?{" "}
+            <Link href="/login" className="auth-link">
+              Log in
+            </Link>
+          </p>
+        </div>
       </div>
     </main>
   );

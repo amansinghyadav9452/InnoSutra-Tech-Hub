@@ -1,35 +1,52 @@
-export default function Login() {
+import Link from "next/link";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { LoginForm } from "@/components/AuthForm";
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const params = await searchParams;
+  const nextPath = params.next?.startsWith("/") && !params.next.startsWith("//")
+    ? params.next
+    : "/dashboard";
   return (
-    <main className="grid min-h-screen place-items-center bg-gradient-to-br from-violet-100 to-cyan-100 p-6">
-      <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-soft">
-        <a href="/" className="text-xl font-black">
-          Inno<span className="gradient-text">Sutra</span>
-        </a>
+    <main className="auth-page">
+      <div className="auth-shell">
+        <Link href="/" className="auth-back-link">
+          <ArrowLeft size={16} />
+          Back to InnoSutra
+        </Link>
 
-        <h1 className="mt-10 text-3xl font-black">Welcome back</h1>
-        <p className="mt-2 text-slate-500">Continue your learning journey.</p>
+        <div className="auth-card">
+          <Link href="/" className="brand auth-brand">
+            <span>Inno</span>
+            <span className="brand-gradient">Sutra</span>
+          </Link>
 
-        <input
-          className="mt-8 w-full rounded-xl border p-4"
-          placeholder="Email address"
-          type="email"
-        />
-        <input
-          className="mt-3 w-full rounded-xl border p-4"
-          placeholder="Password"
-          type="password"
-        />
+          <div className="auth-heading">
+            <span className="auth-kicker">WELCOME BACK</span>
+            <h1>Continue your learning journey.</h1>
+            <p>
+              Log in to access your courses, profile and live learning space.
+            </p>
+          </div>
 
-        <button className="mt-5 w-full rounded-xl bg-slate-950 p-4 font-bold text-white">
-          Login
-        </button>
+          <LoginForm nextPath={nextPath} />
 
-        <p className="mt-6 text-center text-sm">
-          New here?{" "}
-          <a href="/register" className="font-bold text-violet-600">
-            Create account
-          </a>
-        </p>
+          <div className="auth-security-note">
+            <ShieldCheck size={18} />
+            Your session is protected with a secure HTTP-only cookie.
+          </div>
+
+          <p className="auth-switch">
+            Don&apos;t have an account?{" "}
+            <Link href="/register" className="auth-link">
+              Create an account
+            </Link>
+          </p>
+        </div>
       </div>
     </main>
   );

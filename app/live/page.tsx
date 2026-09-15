@@ -1,3 +1,4 @@
+import { requireAuth } from "@/lib/require-auth";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Video } from "lucide-react";
 
@@ -19,7 +20,8 @@ const sessions = [
   },
 ];
 
-export default function LivePage() {
+export default async function LivePage() {
+  await requireAuth();
   return (
     <main className="py-10 md:py-16">
       <div className="container">
